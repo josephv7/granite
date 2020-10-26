@@ -1,5 +1,5 @@
 class Api::V1::TasksController < ApplicationController
-  before_action :load_task, only: [:show, :update]
+  before_action :load_task, only: [:show, :update, :destroy]
 
   def index
     @tasks = Task.all
@@ -25,6 +25,14 @@ class Api::V1::TasksController < ApplicationController
     else
       errors = @task.errors.full_messages
       render status: :unprocessable_entity, json: { errors: errors  }
+    end
+  end
+
+  def destroy
+    if @task.destroy
+      render status: :ok, json: { notice: "Successfully deleted task." }
+    else
+      render status: :unprocessable_entity, json: { errors: @task.errors.full_messages }
     end
   end
 
