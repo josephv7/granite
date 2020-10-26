@@ -1,6 +1,20 @@
 class Api::V1::TasksController < ApplicationController
+  before_action :load_task, only: [:show, :update]
+
   def index
     @tasks = Task.all
+  end
+
+  def show
+    render
+  end
+
+  def update
+    if @task.update(task_params)
+      render status: :ok, json: { notice: "Successfully updated task." }
+    else
+      render status: :unprocessable_entity, json:{ errors: @task.errors.full_messages }
+    end
   end
 
   def create
@@ -15,6 +29,12 @@ class Api::V1::TasksController < ApplicationController
   end
 
   private
+
+  def load_task
+    @task = Task.find(params[:id])
+    rescue ActiveRecord::RecordNotFound => errors
+      render json: {errors: errors}
+  end
 
   def task_params
     params.permit(:description)
