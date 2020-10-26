@@ -3,14 +3,17 @@ class Api::V1::TasksController < Api::V1::BaseController
   rescue_from ActiveRecord::InvalidForeignKey, with: :invalid_foreign_key
 
   def index
-    @tasks = Task.all
+    @tasks = policy_scope(Task)
   end
 
   def show
-    render
+    authorize @task
   end
 
   def update
+    
+    authorize @task
+
     if @task.update(task_params)
       render status: :ok, json: { notice: "Successfully updated task." }
     else
@@ -20,6 +23,7 @@ class Api::V1::TasksController < Api::V1::BaseController
 
   def create
     @task = Task.new(task_params.merge(creator_id: current_user.id))
+    authorize @task
 
     if @task.save
       render status: :ok, json: { notice: 'Task was successfully created' }
@@ -30,6 +34,7 @@ class Api::V1::TasksController < Api::V1::BaseController
   end
 
   def destroy
+    authorize @task
     if @task.destroy
       render status: :ok, json: { notice: "Successfully deleted task." }
     else
