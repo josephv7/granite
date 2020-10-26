@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     instance_eval(File.read(Rails.root.join("config/routes/#{routes_name}.rb")))
   end
 
+  draw :api
   draw :devise
   root "home#index"
   get '*path', to: 'home#index', via: :all
