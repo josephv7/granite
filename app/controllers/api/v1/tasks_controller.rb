@@ -19,7 +19,7 @@ class Api::V1::TasksController < Api::V1::BaseController
   end
 
   def create
-    @task = Task.new(task_params)
+    @task = Task.new(task_params.merge(creator_id: current_user.id))
 
     if @task.save
       render status: :ok, json: { notice: 'Task was successfully created' }
