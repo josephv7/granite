@@ -1,5 +1,6 @@
 class Api::V1::TasksController < ApplicationController
   before_action :load_task, only: [:show, :update, :destroy]
+  rescue_from ActiveRecord::InvalidForeignKey, with: :invalid_foreign_key
 
   def index
     @tasks = Task.all
@@ -46,5 +47,9 @@ class Api::V1::TasksController < ApplicationController
 
   def task_params
     params.permit(:description, :user_id)
+  end
+
+  def invalid_foreign_key
+    render status: :unprocessable_entity, json: { errors: "Invalid Foreign Key." }
   end
 end
