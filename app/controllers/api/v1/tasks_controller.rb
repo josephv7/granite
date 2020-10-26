@@ -1,4 +1,4 @@
-class Api::V1::TasksController < ApplicationController
+class Api::V1::TasksController < Api::V1::BaseController
   before_action :load_task, only: [:show, :update, :destroy]
   rescue_from ActiveRecord::InvalidForeignKey, with: :invalid_foreign_key
 
