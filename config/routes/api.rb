@@ -3,5 +3,6 @@ namespace :api do
     resources :tasks, only: [:index, :create, :show, :update, :destroy] do
       resources :comments, only: [:create]
     end
+    resources :users, only: [:index]
   end
 end
