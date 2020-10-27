@@ -28,7 +28,7 @@ const TaskList = () => {
       if (error.response.status == 401) {
         console.log("Permisssion Denied");
         localStorage.removeItem("authToken");
-        history.push("/login");
+        history.push("/");
       }
     }
   };
@@ -50,7 +50,7 @@ const TaskList = () => {
       } else if (error.response.status == 401) {
         console.log("Permisssion Denied");
         localStorage.removeItem("authToken");
-        history.push("/login");
+        history.push("/");
       }
     }
   };

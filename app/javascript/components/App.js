@@ -20,8 +20,20 @@ const App = () => {
     <Router>
       <Switch>
         <Route path="/signup" component={Signup} />
-        <Route path="/create" component={CreateTask} />
-        <Route path="/tasks/:id" component={Details} />
+        {/* <Route path="/create" component={CreateTask} /> */}
+        <PrivateRoute
+          path="/create"
+          redirectRoute="/"
+          component={CreateTask}
+          condition={authenticated}
+        />
+        {/* <Route path="/tasks/:id" component={Details} /> */}
+        <PrivateRoute
+          path="/tasks/:id"
+          redirectRoute="/"
+          component={Details}
+          condition={authenticated}
+        />
         <PrivateRoute
           path="/dashboard"
           redirectRoute="/"
