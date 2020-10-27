@@ -13,13 +13,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
         end
     end
 
-    
-    # def generate_authentication_token
-    #     loop do
-    #         @token = Devise.friendly_token
-    #         break @token unless User.where(authentication_token: @token).first
-    #       end
-    #   end   
+   
 
     
     def sign_up_params

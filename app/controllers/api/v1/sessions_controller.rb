@@ -17,12 +17,6 @@ class Api::V1::SessionsController < Devise::SessionsController
         user.blank? || !user.valid_password?(login_params[:password])
       end
   
-      # def generate_authentication_token
-      #   loop do
-      #       @token = Devise.friendly_token
-      #       break @token unless User.where(authentication_token: @token).first
-      #     end
-      # end
 
       def login_params
         params.permit(:email, :password)
