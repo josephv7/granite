@@ -13,7 +13,7 @@ const TaskList = () => {
   const [modal, setModal] = useState(false);
   const [taskId, setTaskId] = useState("");
 
-  const history = useHistory()
+  const history = useHistory();
 
   const toggle = () => setModal(!modal);
 
@@ -32,11 +32,17 @@ const TaskList = () => {
     try {
       const response = await tasksAPI.deleteTask(id);
       console.log(response);
-      fetchTasks()
     } catch (error) {
       console.log(error);
-      if (error.response.status == 403) console.log("No permission");
+      if (error.response.status == 403) {
+        console.log("No permission");
+        // TODO toast
+      } else if (error.response.status == 404) {
+        console.log("Invalid Task");
+        // TODO toast
+      }
     } finally {
+      fetchTasks();
     }
   };
 
@@ -61,9 +67,12 @@ const TaskList = () => {
                     <h5 className="card-title">Card title</h5>
                     {/* <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6> */}
                     <p className="card-text">{item.description}</p>
-                    <Button color="secondary" onClick={() => {
-                      history.push(`/tasks/${item.id}`)
-                    }}>
+                    <Button
+                      color="secondary"
+                      onClick={() => {
+                        history.push(`/tasks/${item.id}`);
+                      }}
+                    >
                       View Details
                     </Button>
                     <a
@@ -87,7 +96,6 @@ const TaskList = () => {
             })}
           </div>
           <div>
-
             <Modal isOpen={modal} toggle={toggle}>
               <ModalHeader toggle={toggle}>Modal title</ModalHeader>
               <ModalBody>
@@ -107,11 +115,17 @@ const TaskList = () => {
     return (
       <>
         <Navbar />
-        <div className="no-logs--container text-center" style={{height:'100vh'}}>
-        <div className="d-flex flex-column justify-content-center align-items-center" style={{height:'100vh'}}>
-          <h2>No Tasks</h2>
+        <div
+          className="no-logs--container text-center"
+          style={{ height: "100vh" }}
+        >
+          <div
+            className="d-flex flex-column justify-content-center align-items-center"
+            style={{ height: "100vh" }}
+          >
+            <h2>No Tasks</h2>
+          </div>
         </div>
-      </div>
       </>
     );
   }
