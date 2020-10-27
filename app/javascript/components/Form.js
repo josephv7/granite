@@ -6,11 +6,15 @@ import Spinner from "./Spinner";
 import { useHistory } from "react-router-dom";
 import _ from "lodash";
 
+import { useToasts } from "react-toast-notifications";
+
 const Form = ({ type }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [submit, setSubmit] = useState(false);
   const history = useHistory();
+
+  const { addToast } = useToasts();
 
   const loginUser = async () => {
     try {
@@ -27,8 +31,10 @@ const Form = ({ type }) => {
     } catch (error) {
       console.log(error);
       setSubmit(false);
-      if (error.response.status === 401) console.log("unauthorized");
-      // TODO toast
+      if (error.response.status === 401) {
+        console.log("unauthorized");
+        addToast("Invalid Username or Password", { appearance: "error" });
+      }
     }
   };
 
@@ -52,10 +58,9 @@ const Form = ({ type }) => {
     } catch (error) {
       setSubmit(false);
       if (error.response.status === 422) console.log("unprocessable entity");
-      // _.forEach(error.response.data.errors, (value, key) => {
-      //   addToast(`${key} ${value}`, { appearance: "error", autoDismiss: true });
-      // });
-      // TODO
+      _.forEach(error.response.data.errors, (value, key) => {
+        addToast(`${key} ${value}`, { appearance: "error", autoDismiss: true });
+      });
     }
   };
 

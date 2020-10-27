@@ -7,11 +7,14 @@ import TaskForm from "./TaskForm";
 import tasksAPI from "../apis/tasks";
 import setAuthTokenHeader from "../apis/index";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { useToasts } from "react-toast-notifications";
 
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
   const [modal, setModal] = useState(false);
   const [taskId, setTaskId] = useState("");
+
+  const { addToast } = useToasts();
 
   const history = useHistory();
 
@@ -26,8 +29,12 @@ const TaskList = () => {
     } catch (error) {
       console.log(error);
       if (error.response.status == 401) {
-        console.log("Permisssion Denied");
+        console.log("Unauthenticated User");
         localStorage.removeItem("authToken");
+        addToast("User Not Authenticated", {
+          appearance: "error",
+          autoDismiss: true,
+        });
         history.push("/");
       }
     }
@@ -37,19 +44,31 @@ const TaskList = () => {
     try {
       const response = await tasksAPI.deleteTask(id);
       console.log(response);
+      addToast("Task deleted successfully", {
+        appearance: "success",
+        autoDismiss: true,
+      });
+      fetchTasks();
     } catch (error) {
       console.log(error);
       if (error.response.status == 403) {
-        console.log("No permission");
-        // TODO toast
+        console.log("Permission Denied");
+        addToast("Permission Denied", {
+          appearance: "error",
+          autoDismiss: true,
+        });
         fetchTasks();
       } else if (error.response.status == 404) {
         console.log("Invalid Task");
-        // TODO toast
+        addToast("Invalid Task", { appearance: "error", autoDismiss: true });
         fetchTasks();
       } else if (error.response.status == 401) {
-        console.log("Permisssion Denied");
+        console.log("Unauthenticated User");
         localStorage.removeItem("authToken");
+        addToast("User Not Authenticated", {
+          appearance: "error",
+          autoDismiss: true,
+        });
         history.push("/");
       }
     }
@@ -77,7 +96,7 @@ const TaskList = () => {
                     {/* <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6> */}
                     <p className="card-text">{item.description}</p>
                     <p className="card-text">{`Assigned To : ${item.userName}`}</p>
-                    <hr/>
+                    <hr />
                     <p className="card-text">{`Created By : ${item.creatorName}`}</p>
                     <Button
                       color="secondary"

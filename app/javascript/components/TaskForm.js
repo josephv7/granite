@@ -3,7 +3,7 @@ import tasksAPI from "../apis/tasks";
 import userAPI from "../apis/users";
 import setAuthTokenHeader from "../apis/index";
 import Spinner from "./Spinner";
-
+import { useToasts } from "react-toast-notifications";
 import { useHistory } from "react-router-dom";
 import _ from "lodash";
 
@@ -13,6 +13,8 @@ const TaskForm = ({ type, taskId, toggle }) => {
   const [userId, setUserId] = useState("");
   const [creatorId, setCreatorId] = useState("");
   const [users, setUsers] = useState([]);
+
+  const { addToast } = useToasts();
 
   const [submit, setSubmit] = useState(false);
   const history = useHistory();
@@ -25,6 +27,15 @@ const TaskForm = ({ type, taskId, toggle }) => {
       setUsers(response.data.users);
     } catch (error) {
       console.log(error);
+      if (error.response.status == 401) {
+        console.log("Unauthenticated User");
+        localStorage.removeItem("authToken");
+        addToast("User Not Authenticated", {
+          appearance: "error",
+          autoDismiss: true,
+        });
+        history.push("/");
+      }
     }
   };
 
@@ -40,6 +51,15 @@ const TaskForm = ({ type, taskId, toggle }) => {
         setCreatorId(response.data.creatorId);
       } catch (error) {
         console.log(error);
+        if (error.response.status == 401) {
+          console.log("Unauthenticated User");
+          localStorage.removeItem("authToken");
+          addToast("User Not Authenticated", {
+            appearance: "error",
+            autoDismiss: true,
+          });
+          history.push("/");
+        }
       }
     }
   };
@@ -58,15 +78,26 @@ const TaskForm = ({ type, taskId, toggle }) => {
         user_id: userId,
       });
       console.log(response);
+      addToast("Task Created Successfully", {
+        appearance: "success",
+        autoDismiss: true,
+      });
       history.push("/");
     } catch (error) {
       console.log(error);
       if (error.response.status === 422) {
         console.log("invalid foreign key");
-        // TODO toast
-      } else if (error.response.status === 401) {
-        console.log("Permission denied");
+        addToast("Required user does not exist!", {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      } else if (error.response.status == 401) {
+        console.log("Unauthenticated User");
         localStorage.removeItem("authToken");
+        addToast("User Not Authenticated", {
+          appearance: "error",
+          autoDismiss: true,
+        });
         history.push("/");
       }
     } finally {
@@ -82,20 +113,31 @@ const TaskForm = ({ type, taskId, toggle }) => {
         description,
         user_id: userId,
       });
+      addToast("Task Updated Successfullt", {
+        appearance: "success",
+        autoDismiss: true,
+      });
       console.log(response);
       toggle;
     } catch (error) {
       console.log(error);
       if (error.response.status === 422) {
         console.log("invalid foreign key");
-        // TODO toast
+        addToast("Required user does not exist!", {
+          appearance: "error",
+          autoDismiss: true,
+        });
         // _.forEach(error.response.data.errors, (value, key) => {
         //   addToast(`${key} ${value}`, { appearance: "error", autoDismiss: true });
         // });
       } else if (error.response.status === 401) {
-        console.log("Permission denied");
-        localStorage.removeItem("authToken");
-        history.push("/");
+        console.log("Unauthenticated User");
+          localStorage.removeItem("authToken");
+          addToast("User Not Authenticated", {
+            appearance: "error",
+            autoDismiss: true,
+          });
+          history.push("/");
       }
     } finally {
       setSubmit(false);
