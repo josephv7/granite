@@ -1,5 +1,6 @@
 class Task < ApplicationRecord
   validates :description, presence: true
+  validates :title, presence: true
   belongs_to :user, optional: true
   has_many :comments, dependent: :destroy
   # after_create :log_task_details

@@ -6,33 +6,39 @@ import setAuthTokenHeader from "../apis/index";
 
 const Details = () => {
   const { id } = useParams();
+  const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [userId, setUserId] = useState("");
   const [creatorId, setCreatorId] = useState("");
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
 
-  const history = useHistory()
+  const history = useHistory();
 
   const fetchTask = async (taskId) => {
     try {
       const response = await tasksAPI.fetchTask(taskId);
       console.log("-----");
       console.log(response);
+      setTitle(response.data.title);
       setDescription(response.data.description);
       setUserId(response.data.userId);
       setCreatorId(response.data.creatorId);
       setComments(response.data.comments);
     } catch (error) {
       console.log(error);
-      if(error.response.status == 404){
-        console.log('NO Task WIth ID')
+      if (error.response.status == 404) {
+        console.log("NO Task with ID");
         // TODO toast
-        history.push('/')
-      }else if(error.response.status == 403){
-        console.log('Not authorized')
+        history.push("/");
+      } else if (error.response.status == 403) {
+        console.log("Not authorized");
         // TODO toast
-        history.push('/')
+        history.push("/");
+      } else if (error.response.status == 401) {
+        console.log("Permisssion Denied");
+        localStorage.removeItem("authToken");
+        history.push("/");
       }
     }
   };
@@ -40,7 +46,7 @@ const Details = () => {
   const postComment = async () => {
     try {
       const response = await tasksAPI.postComment(id, { content: newComment });
-      setNewComment("")
+      setNewComment("");
       fetchTask(id);
     } catch (error) {
       console.log(error);
@@ -54,7 +60,7 @@ const Details = () => {
   return (
     <Container>
       <div className="jumbotron">
-        <h1 className="display-4">Hello, world!</h1>
+        <h1 className="display-4">{title}</h1>
         <p className="lead">{description}</p>
         <hr className="my-4" />
         {/* <p>It uses utility classNamees for typography and spacing to space content out within the larger container.</p> */}
@@ -85,6 +91,7 @@ const Details = () => {
           <img className="mr-3" src="https://via.placeholder.com/50"></img>
           <div className="media-body">
             <p className="mt-0">{item.content}</p>
+            <p className="mt-0">{item.created_at}</p>
           </div>
         </div>
       ))}

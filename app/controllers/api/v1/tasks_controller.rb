@@ -52,7 +52,7 @@ class Api::V1::TasksController < Api::V1::BaseController
   end
 
   def task_params
-    params.permit(:description, :user_id)
+    params.permit(:title, :description, :user_id)
   end
 
   def invalid_foreign_key
