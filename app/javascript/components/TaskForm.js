@@ -134,10 +134,10 @@ const TaskForm = ({ type }) => {
       </div> */}
       <div className="form-group">
     <label>Assign To User</label>
-    <select className="form-control" onChange={(e)=> console.log(e.target.value)}>
+    <select className="form-control" onChange={(e)=> setUserId(e.target.value)}>
       {users.map((item, index) => {
         return(
-          <option key={index}>{item.email}</option>
+          <option key={index}value={item.id}>{item.email}</option>
         )
       })}
     </select>
