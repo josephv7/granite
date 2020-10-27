@@ -3,6 +3,7 @@ import Login from "./Login";
 import Signup from "./Signup";
 import CreateTask from "./CreateTask"
 import Dashboard from "./Dashboard";
+import Details from "./Details"
 import PrivateRoute from "./PrivateRoute";
 import setAuthTokenHeader from "../apis/index";
 import authenticated from "./helpers/auth";
@@ -20,6 +21,7 @@ const App = () => {
       <Switch>
         <Route path="/signup" component={Signup} />
         <Route path="/create" component={CreateTask} />
+        <Route path="/tasks/:id" component={Details} />
         <PrivateRoute
           path="/dashboard"
           redirectRoute="/"
