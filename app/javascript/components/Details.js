@@ -28,6 +28,7 @@ const Details = () => {
   const postComment = async () => {
     try {
       const response = await tasksAPI.postComment(id, { content: newComment });
+      setNewComment("")
       fetchTask(id);
     } catch (error) {
       console.log(error);
@@ -60,6 +61,7 @@ const Details = () => {
           <textarea
             className="form-control"
             rows="3"
+            value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
           ></textarea>
         </div>
