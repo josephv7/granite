@@ -28,7 +28,7 @@ const Details = () => {
     } catch (error) {
       console.log(error);
       if (error.response.status == 404) {
-        console.log("NO Task with ID");
+        console.log("No Task with ID");
         // TODO toast
         history.push("/");
       } else if (error.response.status == 403) {
