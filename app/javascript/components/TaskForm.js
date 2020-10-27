@@ -123,15 +123,7 @@ const TaskForm = ({ type }) => {
           onChange={(e) => setDescription(e.target.value)}
         />
       </div>
-      {/* <div className="form-group">
-        <label>User Id</label>
-        <input
-          type="text"
-          className="form-control"
-          placeholder="User Id"
-          onChange={(e) => setUserId(e.target.value)}
-        />
-      </div> */}
+    
       <div className="form-group">
     <label>Assign To User</label>
     <select className="form-control" onChange={(e)=> setUserId(e.target.value)}>
