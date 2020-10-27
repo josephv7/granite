@@ -7,7 +7,7 @@ import Spinner from "./Spinner";
 import { useHistory } from "react-router-dom";
 import _ from "lodash";
 
-const TaskForm = ({ type }) => {
+const TaskForm = ({ type, taskId }) => {
   const [description, setDescription] = useState("");
   const [userId, setUserId] = useState("");
   const [users, setUsers] = useState([]);
@@ -26,8 +26,23 @@ const TaskForm = ({ type }) => {
     }
   };
 
+  const fetchTask = async (taskId) => {
+    if (type == "update") {
+      try {
+        const response = await tasksAPI.fetchTask(taskId);
+        console.log("-----");
+        console.log(response);
+        setDescription(response.data.description)
+        setUserId(response.data.creatorId)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   useEffect(() => {
     fetchUsers();
+    fetchTask(taskId);
   }, []);
 
   const createTask = async () => {
@@ -49,11 +64,11 @@ const TaskForm = ({ type }) => {
   const updateTask = async () => {
     try {
       setSubmit(true);
-      const response = await tasksAPI.updateTask({
+      const response = await tasksAPI.updateTask(taskId,{
         description,
         user_id: userId,
       });
-      console.log(`success ${response}`);
+      console.log(response);
     } catch (error) {
       console.log(error);
       if (error.response.status === 422) console.log("invalid foreign key");
@@ -62,50 +77,10 @@ const TaskForm = ({ type }) => {
     }
   };
 
-  const loginUser = async () => {
-    try {
-      setSubmit(true);
-      const response = await authenticationAPI.login({ email, password });
-      console.log(`success ${response}`);
-      localStorage.setItem(
-        "authToken",
-        response.data.user.authentication_token
-      );
-      setSubmit(false);
-      setAuthTokenHeader(response.data.user.authentication_token);
-      history.push("/dashboard");
-    } catch (error) {
-      console.log(error);
-      setSubmit(false);
-      if (error.response.status === 401) console.log("unauthorized");
-    }
-  };
 
-  const signupUser = async () => {
-    try {
-      setSubmit(true);
-      const response = await authenticationAPI.signup({
-        email,
-        password,
-        password_confirmation: password,
-      });
-      setSubmit(false);
-      console.log(response.data.user);
-      localStorage.setItem(
-        "authToken",
-        response.data.user.authentication_token
-      );
-      setAuthTokenHeader(localStorage.getItem("authToken"));
-      history.push("/dashboard");
-      console.log(response.data.user.authentication_token);
-    } catch (error) {
-      setSubmit(false);
-      if (error.response.status === 422) console.log("unprocessable entity");
-      // _.forEach(error.response.data.errors, (value, key) => {
+  // _.forEach(error.response.data.errors, (value, key) => {
       //   addToast(`${key} ${value}`, { appearance: "error", autoDismiss: true });
       // });
-    }
-  };
 
   const submitForm = async (e) => {
     e.preventDefault();
@@ -120,20 +95,27 @@ const TaskForm = ({ type }) => {
         <input
           className="form-control"
           placeholder="Enter description"
+          value = {description}
           onChange={(e) => setDescription(e.target.value)}
         />
       </div>
-    
+
       <div className="form-group">
-    <label>Assign To User</label>
-    <select className="form-control" onChange={(e)=> setUserId(e.target.value)}>
-      {users.map((item, index) => {
-        return(
-          <option key={index}value={item.id}>{item.email}</option>
-        )
-      })}
-    </select>
-  </div>
+        <label>Assign To User</label>
+        <select
+          className="form-control"
+          onChange={(e) => setUserId(e.target.value)}
+          value={userId}
+        >
+          {users.map((item, index) => {
+            return (
+              <option key={index} value={item.id}>
+                {item.email}
+              </option>
+            );
+          })}
+        </select>
+      </div>
       {submit ? (
         <button
           type="submit"

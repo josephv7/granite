@@ -1,8 +1,12 @@
 import React from "react";
 import TaskForm from "./TaskForm";
+import Navbar from "./Navbar"
 
 const CreateTask = () => {
-  return <TaskForm type={"create"} />;
+  return <div>
+    <Navbar/>
+  <TaskForm type={"create"} />;
+  </div>
 };
 
 export default CreateTask;
