@@ -107,7 +107,11 @@ const TaskList = () => {
     return (
       <>
         <Navbar />
-        <h1>No Tasks</h1>
+        <div className="no-logs--container text-center" style={{height:'100vh'}}>
+        <div className="d-flex flex-column justify-content-center align-items-center" style={{height:'100vh'}}>
+          <h2>No Tasks</h2>
+        </div>
+      </div>
       </>
     );
   }
