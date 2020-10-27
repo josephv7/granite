@@ -82,7 +82,7 @@ const TaskList = () => {
           <Modal isOpen={modal} toggle={toggle}>
             <ModalHeader toggle={toggle}>Modal title</ModalHeader>
             <ModalBody>
-              <TaskForm type={"update"} taskId={taskId} />
+              <TaskForm type={"update"} taskId={taskId} close={toggle}/>
             </ModalBody>
             <ModalFooter>
               <Button color="secondary" onClick={toggle}>
@@ -94,9 +94,12 @@ const TaskList = () => {
       </Container>
       </div>
     );
-  } else {
+  } else {    
+    return (
+      <> 
     <Navbar/>
-    return <h1>No Tasks</h1>;
+    <h1>No Tasks</h1>
+    </>);
   }
 };
 

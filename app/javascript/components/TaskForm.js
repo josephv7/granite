@@ -7,7 +7,7 @@ import Spinner from "./Spinner";
 import { useHistory } from "react-router-dom";
 import _ from "lodash";
 
-const TaskForm = ({ type, taskId }) => {
+const TaskForm = ({ type, taskId, toggle }) => {
   const [description, setDescription] = useState("");
   const [userId, setUserId] = useState("");
   const [users, setUsers] = useState([]);
@@ -53,6 +53,7 @@ const TaskForm = ({ type, taskId }) => {
         user_id: userId,
       });
       console.log(`success ${response}`);
+      history.push('/')
     } catch (error) {
       console.log(error);
       if (error.response.status === 422) console.log("invalid foreign key");
@@ -69,6 +70,7 @@ const TaskForm = ({ type, taskId }) => {
         user_id: userId,
       });
       console.log(response);
+      toggle;
     } catch (error) {
       console.log(error);
       if (error.response.status === 422) console.log("invalid foreign key");
