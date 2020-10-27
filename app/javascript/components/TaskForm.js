@@ -7,7 +7,7 @@ import { useToasts } from "react-toast-notifications";
 import { useHistory } from "react-router-dom";
 import _ from "lodash";
 
-const TaskForm = ({ type, taskId, toggle, isClose }) => {
+const TaskForm = ({ type, taskId, toggle, isClose, updatedTasks }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [userId, setUserId] = useState("");
@@ -142,6 +142,7 @@ const TaskForm = ({ type, taskId, toggle, isClose }) => {
     } finally {
       setSubmit(false);
       isClose();
+      updatedTasks();
     }
   };
 

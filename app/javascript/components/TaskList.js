@@ -13,6 +13,7 @@ const TaskList = () => {
   const [tasks, setTasks] = useState([]);
   const [modal, setModal] = useState(false);
   const [taskId, setTaskId] = useState("");
+  const [updated, setUpdated] = useState(false);
 
   const { addToast } = useToasts();
 
@@ -78,6 +79,13 @@ const TaskList = () => {
     fetchTasks();
   }, []);
 
+  useEffect(() => {
+    if (updated) {
+      fetchTasks();
+      setUpdated(false);
+    }
+  }, [updated]);
+
   if (tasks.length > 0) {
     return (
       <div>
@@ -135,6 +143,7 @@ const TaskList = () => {
                   taskId={taskId}
                   close={toggle}
                   isClose={() => setModal(false)}
+                  updatedTasks={() => setUpdated(true)}
                 />
               </ModalBody>
             </Modal>
