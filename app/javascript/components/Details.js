@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useHistory } from "react-router-dom";
 import tasksAPI from "../apis/tasks";
+import Navbar from "./Navbar";
 import Container from "./Container";
 import setAuthTokenHeader from "../apis/index";
+import { useParams, useHistory } from "react-router-dom";
 
 const Details = () => {
   const { id } = useParams();
@@ -58,44 +59,49 @@ const Details = () => {
     fetchTask(id);
   }, []);
   return (
-    <Container>
-      <div className="jumbotron">
-        <h1 className="display-4">{title}</h1>
-        <p className="lead">{description}</p>
-        <hr className="my-4" />
-        {/* <p>It uses utility classNamees for typography and spacing to space content out within the larger container.</p> */}
+    <>
+      <Navbar />
+      <Container>
+        <div className="jumbotron">
+          <h1 className="display-4">{title}</h1>
+          <p className="lead">{description}</p>
+          <hr className="my-4" />
 
-        <button
-          className="btn btn-primary btn-lg"
-          disabled={newComment.length === 0}
-          onClick={() => {
-            postComment();
-          }}
-          role="button"
-        >
-          Post Comment
-        </button>
+          <div className="form-group">
+            <textarea
+              className="form-control"
+              placeholder="Enter Comment Here"
+              rows="3"
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+            ></textarea>
 
-        <div className="form-group">
-          <textarea
-            className="form-control"
-            rows="3"
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-          ></textarea>
-        </div>
-      </div>
-
-      {comments?.map((item, index) => (
-        <div className="media" key={index}>
-          <img className="mr-3" src="https://via.placeholder.com/50"></img>
-          <div className="media-body">
-            <p className="mt-0">{item.content}</p>
-            <p className="mt-0">{item.created_at}</p>
+            <div className="d-flex flex-row justify-content-end mt-2">
+              <button
+                className="btn btn-primary btn-md"
+                disabled={newComment.length === 0}
+                onClick={() => {
+                  postComment();
+                }}
+                role="button"
+              >
+                Post Comment
+              </button>
+            </div>
           </div>
         </div>
-      ))}
-    </Container>
+
+        {comments?.map((item, index) => (
+          <div className="media" key={index}>
+            <img className="mr-3" src="https://via.placeholder.com/50"></img>
+            <div className="media-body">
+              <p className="mt-0">{item.content}</p>
+              <p className="mt-0">{item.created_at}</p>
+            </div>
+          </div>
+        ))}
+      </Container>
+    </>
   );
 };
 
