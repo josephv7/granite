@@ -28,6 +28,7 @@ const Form = ({ type }) => {
       console.log(error);
       setSubmit(false);
       if (error.response.status === 401) console.log("unauthorized");
+      // TODO toast
     }
   };
 
@@ -54,6 +55,7 @@ const Form = ({ type }) => {
       // _.forEach(error.response.data.errors, (value, key) => {
       //   addToast(`${key} ${value}`, { appearance: "error", autoDismiss: true });
       // });
+      // TODO
     }
   };
 

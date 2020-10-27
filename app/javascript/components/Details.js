@@ -29,6 +29,10 @@ const Details = () => {
         console.log('NO Task WIth ID')
         // TODO toast
         history.push('/')
+      }else if(error.response.status == 403){
+        console.log('Not authorized')
+        // TODO toast
+        history.push('/')
       }
     }
   };
