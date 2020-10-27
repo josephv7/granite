@@ -32,8 +32,8 @@ const TaskForm = ({ type, taskId, toggle }) => {
         const response = await tasksAPI.fetchTask(taskId);
         console.log("-----");
         console.log(response);
-        setDescription(response.data.description)
-        setUserId(response.data.creatorId)
+        setDescription(response.data.description);
+        setUserId(response.data.creatorId);
       } catch (error) {
         console.log(error);
       }
@@ -52,8 +52,8 @@ const TaskForm = ({ type, taskId, toggle }) => {
         description,
         user_id: userId,
       });
-      console.log(`success ${response}`);
-      history.push('/')
+      console.log(response);
+      history.push("/");
     } catch (error) {
       console.log(error);
       if (error.response.status === 422) console.log("invalid foreign key");
@@ -65,7 +65,7 @@ const TaskForm = ({ type, taskId, toggle }) => {
   const updateTask = async () => {
     try {
       setSubmit(true);
-      const response = await tasksAPI.updateTask(taskId,{
+      const response = await tasksAPI.updateTask(taskId, {
         description,
         user_id: userId,
       });
@@ -79,10 +79,9 @@ const TaskForm = ({ type, taskId, toggle }) => {
     }
   };
 
-
   // _.forEach(error.response.data.errors, (value, key) => {
-      //   addToast(`${key} ${value}`, { appearance: "error", autoDismiss: true });
-      // });
+  //   addToast(`${key} ${value}`, { appearance: "error", autoDismiss: true });
+  // });
 
   const submitForm = async (e) => {
     e.preventDefault();
@@ -97,7 +96,7 @@ const TaskForm = ({ type, taskId, toggle }) => {
         <input
           className="form-control"
           placeholder="Enter description"
-          value = {description}
+          value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
       </div>

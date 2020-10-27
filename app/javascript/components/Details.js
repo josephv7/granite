@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import tasksAPI from "../apis/tasks";
 import Container from "./Container";
+import setAuthTokenHeader from "../apis/index";
 
 const Details = () => {
   const { id } = useParams();
@@ -10,6 +11,8 @@ const Details = () => {
   const [creatorId, setCreatorId] = useState("");
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
+
+  const history = useHistory()
 
   const fetchTask = async (taskId) => {
     try {
@@ -22,6 +25,11 @@ const Details = () => {
       setComments(response.data.comments);
     } catch (error) {
       console.log(error);
+      if(error.response.status == 404){
+        console.log('NO Task WIth ID')
+        // TODO toast
+        history.push('/')
+      }
     }
   };
 
@@ -36,6 +44,7 @@ const Details = () => {
   };
 
   useEffect(() => {
+    setAuthTokenHeader(localStorage.getItem("authToken"));
     fetchTask(id);
   }, []);
   return (
