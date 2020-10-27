@@ -7,7 +7,7 @@ import { useToasts } from "react-toast-notifications";
 import { useHistory } from "react-router-dom";
 import _ from "lodash";
 
-const TaskForm = ({ type, taskId, toggle }) => {
+const TaskForm = ({ type, taskId, toggle, isClose }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [userId, setUserId] = useState("");
@@ -113,7 +113,7 @@ const TaskForm = ({ type, taskId, toggle }) => {
         description,
         user_id: userId,
       });
-      addToast("Task Updated Successfullt", {
+      addToast("Task Updated Successfully", {
         appearance: "success",
         autoDismiss: true,
       });
@@ -141,6 +141,7 @@ const TaskForm = ({ type, taskId, toggle }) => {
       }
     } finally {
       setSubmit(false);
+      isClose();
     }
   };
 

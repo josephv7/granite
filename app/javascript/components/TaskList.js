@@ -127,16 +127,16 @@ const TaskList = () => {
             })}
           </div>
           <div>
-            <Modal isOpen={modal} toggle={toggle}>
-              <ModalHeader toggle={toggle}>Modal title</ModalHeader>
+            <Modal isOpen={modal} toggle={toggle} size="lg">
+              <ModalHeader toggle={toggle}>Update Task</ModalHeader>
               <ModalBody>
-                <TaskForm type={"update"} taskId={taskId} close={toggle} />
+                <TaskForm
+                  type={"update"}
+                  taskId={taskId}
+                  close={toggle}
+                  isClose={() => setModal(false)}
+                />
               </ModalBody>
-              <ModalFooter>
-                <Button color="secondary" onClick={toggle}>
-                  Cancel
-                </Button>
-              </ModalFooter>
             </Modal>
           </div>
         </Container>
