@@ -8,6 +8,7 @@ class Api::V1::TasksController < Api::V1::BaseController
 
   def show
     authorize @task
+    @comments = @task.comments
   end
 
   def update
