@@ -25,6 +25,11 @@ const TaskList = () => {
       setTasks(response.data.tasks);
     } catch (error) {
       console.log(error);
+      if (error.response.status == 401) {
+        console.log("Permisssion Denied");
+        localStorage.removeItem("authToken");
+        history.push("/login");
+      }
     }
   };
 
@@ -37,12 +42,16 @@ const TaskList = () => {
       if (error.response.status == 403) {
         console.log("No permission");
         // TODO toast
+        fetchTasks();
       } else if (error.response.status == 404) {
         console.log("Invalid Task");
         // TODO toast
+        fetchTasks();
+      } else if (error.response.status == 401) {
+        console.log("Permisssion Denied");
+        localStorage.removeItem("authToken");
+        history.push("/login");
       }
-    } finally {
-      fetchTasks();
     }
   };
 
