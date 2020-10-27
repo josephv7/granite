@@ -32,6 +32,7 @@ const TaskList = () => {
     try {
       const response = await tasksAPI.deleteTask(id);
       console.log(response);
+      fetchTasks()
     } catch (error) {
       console.log(error);
       if (error.response.status == 403) console.log("No permission");
@@ -86,9 +87,6 @@ const TaskList = () => {
             })}
           </div>
           <div>
-            {/* <Button color="danger" onClick={toggle}>
-            Kill
-          </Button> */}
 
             <Modal isOpen={modal} toggle={toggle}>
               <ModalHeader toggle={toggle}>Modal title</ModalHeader>
