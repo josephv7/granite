@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import Login from "./Login";
 import Signup from "./Signup";
+import CreateTask from "./CreateTask"
+import UpdateTask from "./UpdateTask"
 import Dashboard from "./Dashboard";
 import PrivateRoute from "./PrivateRoute";
 import setAuthTokenHeader from "../apis/index";
@@ -18,6 +20,8 @@ const App = () => {
     <Router>
       <Switch>
         <Route path="/signup" component={Signup} />
+        <Route path="/create" component={CreateTask} />
+        <Route path="/update" component={UpdateTask} />
         <PrivateRoute
           path="/dashboard"
           redirectRoute="/"
