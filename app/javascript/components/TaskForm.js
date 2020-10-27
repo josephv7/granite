@@ -140,7 +140,7 @@ const TaskForm = ({ type, taskId, toggle }) => {
           {users.map((item, index) => {
             return (
               <option key={index} value={item.id}>
-                {item.email}
+                {item.userName}
               </option>
             );
           })}
