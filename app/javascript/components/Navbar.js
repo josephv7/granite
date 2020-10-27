@@ -29,7 +29,7 @@ const Navbar = () => {
             <Link to="/dashboard">Home</Link>
           </li>
           <li className="nav-item active mx-1">
-            <Link to="/create">Create Task</Link>
+            <Link to="/create">Create</Link>
           </li>
         </ul>
         <button className="btn btn-link my-2 my-sm-0" onClick={UserLogout}>

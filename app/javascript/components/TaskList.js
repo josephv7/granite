@@ -100,35 +100,40 @@ const TaskList = () => {
                   key={index}
                 >
                   <div className="card-body">
-                    <h5 className="card-title">{item.title}</h5>
+                    <div style={{ height: "20px", overflow: "hidden" }}>
+                      <h5 className="card-title mb-2">{item.title}</h5>
+                    </div>
                     {/* <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6> */}
-                    <p className="card-text">{item.description}</p>
+                    <div style={{ height: "20px", overflow: "hidden" }}>
+                      <p className="card-text">{item.description}</p>
+                    </div>
+                    <hr />
                     <p className="card-text">{`Assigned To : ${item.userName}`}</p>
                     <hr />
                     <p className="card-text">{`Created By : ${item.creatorName}`}</p>
-                    <Button
-                      color="secondary"
+                    <button
+                      className="btn btn-link"
                       onClick={() => {
                         history.push(`/tasks/${item.id}`);
                       }}
                     >
-                      View Details
-                    </Button>
-                    <a
-                      className="card-link"
+                      Details
+                    </button>
+                    <button
+                      className="btn btn-link"
                       onClick={() => {
                         setTaskId(item.id);
                         toggle();
                       }}
                     >
                       Update
-                    </a>
-                    <a
-                      className="card-link"
+                    </button>
+                    <button
+                      className="btn btn-link"
                       onClick={() => deleteTask(item.id)}
                     >
                       Delete
-                    </a>
+                    </button>
                   </div>
                 </div>
               );
