@@ -132,12 +132,12 @@ const TaskForm = ({ type, taskId, toggle }) => {
         // });
       } else if (error.response.status === 401) {
         console.log("Unauthenticated User");
-          localStorage.removeItem("authToken");
-          addToast("User Not Authenticated", {
-            appearance: "error",
-            autoDismiss: true,
-          });
-          history.push("/");
+        localStorage.removeItem("authToken");
+        addToast("User Not Authenticated", {
+          appearance: "error",
+          autoDismiss: true,
+        });
+        history.push("/");
       }
     } finally {
       setSubmit(false);
@@ -177,8 +177,11 @@ const TaskForm = ({ type, taskId, toggle }) => {
         <select
           className="form-control"
           onChange={(e) => setUserId(e.target.value)}
-          value={userId}
+          value={type === "update" ? userId : null}
         >
+          <option value="starter" selected disabled>
+            Choose a user{" "}
+          </option>
           {users.map((item, index) => {
             return (
               <option key={index} value={item.id}>
