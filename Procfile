@@ -1,3 +1,3 @@
-pokemonworker: bundle exec sidekiq -c 2
+tasksworker: bundle exec sidekiq -c 2
 web:  bundle exec puma -C config/puma.rb
 release: bundle exec rake db:migrate
